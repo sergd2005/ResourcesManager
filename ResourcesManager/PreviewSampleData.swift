@@ -8,9 +8,19 @@ A view modifier for showing sample data in previews.
 import SwiftData
 
 struct SampleData {
-    static var contents: [Item] = [
-        Item(name: "Test", count: "1")
-    ]
+    static let craftingRecipe = CraftingRecipe(producedItemCount: "10")
+   
+    static var item: Item {
+        let item = Item(name: "StoneAxe")
+        item.craftingRecipe = craftingRecipe
+        return item
+    }
+    
+//    static var craftingRecipe: CraftingRecipe {
+//        let craftingRecipe = CraftingRecipe()
+//    }
+    static var itemWithoutRecipe = Item(name: "Arrow")
+    static var items/*: [Item]*/ = [item, itemWithoutRecipe]
 }
 
 @MainActor
@@ -21,8 +31,13 @@ let previewContainer: ModelContainer = {
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         let modelContext = container.mainContext
+        
+//        if try modelContext.fetch(FetchDescriptor<CraftingRecipe>()).isEmpty {
+//            container.mainContext.insert(SampleData.craftingRecipe)
+//        }
+        
         if try modelContext.fetch(FetchDescriptor<Item>()).isEmpty {
-            SampleData.contents.forEach { container.mainContext.insert($0) }
+            SampleData.items.forEach { container.mainContext.insert($0) }
         }
         return container
     } catch {
