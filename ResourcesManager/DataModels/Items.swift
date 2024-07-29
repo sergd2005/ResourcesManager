@@ -15,7 +15,7 @@ final class Item: Identifiable, ObservableObject {
     }
     
     @Attribute(.unique) var name: String
-    @Relationship(deleteRule:.cascade) var craftingRecipe: CraftingRecipe?
+    var craftingRecipe: CraftingRecipe?
     
     init(name: String) {
         self.name = name
@@ -27,6 +27,7 @@ final class Component: Identifiable, ObservableObject {
     let id = UUID()
     var count: Int = 1
     var item: Item?
+    var craftingRecipe: CraftingRecipe?
     
     init() {}
 }
@@ -35,7 +36,7 @@ final class Component: Identifiable, ObservableObject {
 final class CraftingRecipe: ObservableObject {
     var requiredComponents: [Component] = []
     var producedItemCount = "1"
-    weak var producedItem: Item?
+    var producedItem: Item?
     
     init(producedItem: Item? = nil, producedItemCount: String = "") {
         self.producedItem = producedItem
