@@ -11,6 +11,12 @@ import SwiftData
 struct ItemDetailsView: View {
     @ObservedObject var item: Item
     @Environment(\.modelContext) var modelContext
+    @State var itemName: String
+    
+    init(item: Item) {
+        self.item = item
+        itemName = item.name
+    }
     
     var body: some View {
         VStack {
@@ -18,26 +24,32 @@ struct ItemDetailsView: View {
             
             Form {
                 TextField("Item Name",
-                          text: $item.name,
+                          text: $itemName,
                           prompt: Text("Required"))
                 
             }
-            
-            Button {
-                let componentsWithItemsPredicate = #Predicate<Component> { component in component.item != nil }
-                let descriptor = FetchDescriptor<Component>(predicate: componentsWithItemsPredicate)
-                guard let componentsWithItems = try? modelContext.fetch(descriptor) else { return }
-                let componentsWithCurrentItem = componentsWithItems.filter { $0.item == item }
-                for component in componentsWithCurrentItem {
-                    let filteredComponents = component.craftingRecipe?.requiredComponents.filter({$0 != component}) ?? []
-                    component.craftingRecipe?.requiredComponents = filteredComponents
+            HStack {
+                Button {
+                    item.name = itemName
+                } label: {
+                    Text("Save")
                 }
-                for component in componentsWithCurrentItem {
-                    modelContext.delete(component)
+                Button {
+                    let componentsWithItemsPredicate = #Predicate<Component> { component in component.item != nil }
+                    let descriptor = FetchDescriptor<Component>(predicate: componentsWithItemsPredicate)
+                    guard let componentsWithItems = try? modelContext.fetch(descriptor) else { return }
+                    let componentsWithCurrentItem = componentsWithItems.filter { $0.item == item }
+                    for component in componentsWithCurrentItem {
+                        let filteredComponents = component.craftingRecipe?.requiredComponents.filter({$0 != component}) ?? []
+                        component.craftingRecipe?.requiredComponents = filteredComponents
+                    }
+                    for component in componentsWithCurrentItem {
+                        modelContext.delete(component)
+                    }
+                    modelContext.delete(item)
+                } label: {
+                    Text("Delete Item")
                 }
-                modelContext.delete(item)
-            } label: {
-                Text("Delete Item")
             }
             
             if let craftingRecipe = item.craftingRecipe {
