@@ -14,7 +14,9 @@
 		8557023D2C55734300A74ABB /* ResourcesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8557023C2C55734300A74ABB /* ResourcesManagerTests.swift */; };
 		855702472C55734300A74ABB /* ResourcesManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855702462C55734300A74ABB /* ResourcesManagerUITests.swift */; };
 		855702492C55734300A74ABB /* ResourcesManagerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855702482C55734300A74ABB /* ResourcesManagerUITestsLaunchTests.swift */; };
-		859D54E72C57279900C19E35 /* default.store in CopyFiles */ = {isa = PBXBuildFile; fileRef = 859D54E62C57279900C19E35 /* default.store */; };
+		859892672C5728EE0085A549 /* default.store in CopyFiles */ = {isa = PBXBuildFile; fileRef = 859892642C5728EE0085A549 /* default.store */; };
+		859892682C5728EE0085A549 /* default.store-shm in CopyFiles */ = {isa = PBXBuildFile; fileRef = 859892652C5728EE0085A549 /* default.store-shm */; };
+		859892692C5728EE0085A549 /* default.store-wal in CopyFiles */ = {isa = PBXBuildFile; fileRef = 859892662C5728EE0085A549 /* default.store-wal */; };
 		85BABCDD2C55C71D00B9E3F8 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BABCDC2C55C71D00B9E3F8 /* Items.swift */; };
 		85BABCDF2C55D0FA00B9E3F8 /* PreviewSampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BABCDE2C55D0FA00B9E3F8 /* PreviewSampleData.swift */; };
 		85BABCE12C57079000B9E3F8 /* CraftingRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BABCE02C57079000B9E3F8 /* CraftingRecipeView.swift */; };
@@ -46,7 +48,9 @@
 			dstPath = $PROJECT_DIR;
 			dstSubfolderSpec = 0;
 			files = (
-				859D54E72C57279900C19E35 /* default.store in CopyFiles */,
+				859892672C5728EE0085A549 /* default.store in CopyFiles */,
+				859892682C5728EE0085A549 /* default.store-shm in CopyFiles */,
+				859892692C5728EE0085A549 /* default.store-wal in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +68,9 @@
 		855702422C55734300A74ABB /* ResourcesManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ResourcesManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		855702462C55734300A74ABB /* ResourcesManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesManagerUITests.swift; sourceTree = "<group>"; };
 		855702482C55734300A74ABB /* ResourcesManagerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesManagerUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		859D54E62C57279900C19E35 /* default.store */ = {isa = PBXFileReference; lastKnownFileType = file; name = default.store; path = "../../Library/Containers/com.sdsoftware.ResourcesManager/Data/Library/Application Support/default.store"; sourceTree = "<group>"; };
+		859892642C5728EE0085A549 /* default.store */ = {isa = PBXFileReference; lastKnownFileType = file; name = default.store; path = "../../Library/Containers/com.sdsoftware.ResourcesManager/Data/Library/Application Support/default.store"; sourceTree = "<group>"; };
+		859892652C5728EE0085A549 /* default.store-shm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "default.store-shm"; sourceTree = "<group>"; };
+		859892662C5728EE0085A549 /* default.store-wal */ = {isa = PBXFileReference; lastKnownFileType = file; path = "default.store-wal"; sourceTree = "<group>"; };
 		85BABCDC2C55C71D00B9E3F8 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		85BABCDE2C55D0FA00B9E3F8 /* PreviewSampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewSampleData.swift; sourceTree = "<group>"; };
 		85BABCE02C57079000B9E3F8 /* CraftingRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CraftingRecipeView.swift; sourceTree = "<group>"; };
@@ -100,7 +106,9 @@
 		8557021E2C55734100A74ABB = {
 			isa = PBXGroup;
 			children = (
-				859D54E62C57279900C19E35 /* default.store */,
+				859892642C5728EE0085A549 /* default.store */,
+				859892652C5728EE0085A549 /* default.store-shm */,
+				859892662C5728EE0085A549 /* default.store-wal */,
 				85BABCDE2C55D0FA00B9E3F8 /* PreviewSampleData.swift */,
 				85BABCE22C5707AC00B9E3F8 /* Views */,
 				855702292C55734100A74ABB /* ResourcesManager */,
