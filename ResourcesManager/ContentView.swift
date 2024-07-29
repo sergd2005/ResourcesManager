@@ -26,7 +26,6 @@ struct ContentView: View {
     @Query private var items: [Item]
     
     var body: some View {
-        var tmp = print(modelContext.sqliteCommand)
         HStack {
             VStack {
                 HStack {
