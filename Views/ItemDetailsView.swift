@@ -11,12 +11,6 @@ import SwiftData
 struct ItemDetailsView: View {
     @ObservedObject var item: Item
     @Environment(\.modelContext) var modelContext
-    @State var itemName: String
-    
-    init(item: Item) {
-        self.item = item
-        itemName = item.name
-    }
     
     var body: some View {
         VStack {
@@ -24,27 +18,20 @@ struct ItemDetailsView: View {
             
             Form {
                 TextField("Item Name",
-                          text: $itemName,
+                          text: $item.name,
                           prompt: Text("Required"))
                 
             }
             HStack {
                 Button {
-                    item.name = itemName
-                } label: {
-                    Text("Save")
-                }
-                Button {
-                    let componentsWithItemsPredicate = #Predicate<Component> { component in component.item != nil }
-                    let descriptor = FetchDescriptor<Component>(predicate: componentsWithItemsPredicate)
-                    guard let componentsWithItems = try? modelContext.fetch(descriptor) else { return }
-                    let componentsWithCurrentItem = componentsWithItems.filter { $0.item == item }
-                    for component in componentsWithCurrentItem {
-                        let filteredComponents = component.craftingRecipe?.requiredComponents.filter({$0 != component}) ?? []
-                        component.craftingRecipe?.requiredComponents = filteredComponents
+                    let componentsWithItemPredicate = #Predicate<Component> { component in
+                        !component.items.isEmpty
                     }
+                    let descriptor = FetchDescriptor<Component>(predicate: componentsWithItemPredicate)
+                    guard let componentsWithItems = try? modelContext.fetch(descriptor) else { return }
+                    let componentsWithCurrentItem = componentsWithItems.filter { $0.items.contains(where: {$0 == item})}
                     for component in componentsWithCurrentItem {
-                        modelContext.delete(component)
+                        component.items = component.items.filter({$0 != item})
                     }
                     modelContext.delete(item)
                 } label: {

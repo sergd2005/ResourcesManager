@@ -34,74 +34,10 @@
             filePath = "Views/CraftingRecipeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "body"
             landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0F2900D6-E413-409D-AAEA-2E7C63014068"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Views/CraftingRecipeView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "347F424A-FC71-4D4B-A265-2989EC8EC324"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Views/ItemDetailsView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "init(item:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "347F424A-FC71-4D4B-A265-2989EC8EC324 - 7d5f4d057f6571b3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ResourcesManager.ItemDetailsView.init(item: ResourcesManager.Item) -&gt; ResourcesManager.ItemDetailsView"
-                  moduleName = "ResourcesManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sergiid/code/ResourcesManager/Views/ItemDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "333">
-               </Location>
-               <Location
-                  uuid = "347F424A-FC71-4D4B-A265-2989EC8EC324 - 7d5f4d057f6571b3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ResourcesManager.ItemDetailsView.init(item: ResourcesManager.Item) -&gt; ResourcesManager.ItemDetailsView"
-                  moduleName = "ResourcesManager"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sergiid/code/ResourcesManager/Views/ItemDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "146">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

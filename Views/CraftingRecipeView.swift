@@ -14,18 +14,26 @@ struct CraftingRecipeView: View {
     @ObservedObject var craftingRecipe: CraftingRecipe
     
     @State private var selectedComponentID = UUID()
-    @State private var selectedAvailableItemID = ""
-    @State private var requiredAmount = ""
+    @State private var selectedAvailableItemID = UUID()
+    @State private var selectedItemFromComponentID = UUID()
+    @State private var numberFormatter: NumberFormatter = {
+        var nf = NumberFormatter()
+        nf.numberStyle = .decimal
+        return nf
+    }()
     
     @Environment(\.modelContext) var modelContext
-    
-    
+        
     private var selectedAvailableItem: Item? {
         items.filter { $0.id == selectedAvailableItemID }.first
     }
     
     private var selectedComponent: Component? {
         craftingRecipe.requiredComponents.filter { $0.id == selectedComponentID }.first
+    }
+    
+    private var selectedItemFromComponent: Item? {
+        items.filter { $0.id == selectedItemFromComponentID }.first
     }
     
     var body: some View {
@@ -47,37 +55,76 @@ struct CraftingRecipeView: View {
                 HStack {
                     VStack {
                         Text("Components")
+                        HStack {
+                            Button {
+                                let component = Component()
+                                craftingRecipe.requiredComponents.append(component)
+                            } label: {
+                                Text("Add")
+                            }
+                            if let selectedComponent {
+                                Button {
+                                    guard let selectedComponentIndex = craftingRecipe.requiredComponents.firstIndex(of: selectedComponent) else { return }
+                                    craftingRecipe.requiredComponents.remove(at: selectedComponentIndex)
+                                } label: {
+                                    Text("Delete")
+                                }
+                            }
+                        }
                         List(craftingRecipe.requiredComponents, selection: $selectedComponentID) {
-                            Text(($0.item?.name ?? "") + " (\($0.count))")
+                            Text(($0.name) + " (\($0.count))")
+                        }
+                    }
+                    if let selectedComponent {
+                        VStack {
+                            HStack {
+                                Text("Name:")
+                                TextField("Required",
+                                          text: Bindable(selectedComponent).name)
+                            }
+                            HStack {
+                                Text("Required amount:")
+                                TextField("Required",
+                                          value: Bindable(selectedComponent).count,
+                                          formatter: numberFormatter)
+                            }
+                            Text("Possible Components")
+                            List(selectedComponent.items, selection: $selectedItemFromComponentID) {
+                                Text($0.name)
+                            }
                         }
                     }
                     VStack {
-                        if let selectedAvailableItem {
-                            TextField("Required amount",
-                                      text: $requiredAmount)
-                            Button {
-                                guard let requiredAmountInt = Int(requiredAmount) else { return }
-                                let component = Component()
-                                component.count = requiredAmountInt
-                                component.item = selectedAvailableItem
-                                craftingRecipe.requiredComponents.append(component)
-                                requiredAmount = ""
-                                selectedAvailableItemID = ""
-                            } label: {
-                                Text("<-")
-                            }
-                        }
                         if let selectedComponent {
-                            Button {
-                                craftingRecipe.requiredComponents = craftingRecipe.requiredComponents.filter({$0 != selectedComponent})
-                            } label: {
-                                Text("->")
+                            if let selectedAvailableItem {
+                                Button {
+                                    selectedComponent.items.append(selectedAvailableItem)
+                                    if selectedComponent.name.isEmpty {
+                                        selectedComponent.name = selectedComponent.items.first?.name ?? ""
+                                    }
+                                    selectedAvailableItemID = UUID()
+                                } label: {
+                                    Text("<-")
+                                }
+                            }
+                            if let selectedItemFromComponent {
+                                Button {
+                                    guard let selectedItemFromComponentIndex = selectedComponent.items.firstIndex(of: selectedItemFromComponent) else {
+                                        return
+                                    }
+                                    selectedComponent.items.remove(at: selectedItemFromComponentIndex)
+                                } label: {
+                                    Text("->")
+                                }
                             }
                         }
                     }
                     VStack {
                         Text("Available Items")
-                        List(items.filter { item in item != producedItem && !craftingRecipe.requiredComponents.map({$0.item}).contains(where: { componentItem in componentItem == item})}, selection: $selectedAvailableItemID) {
+                        List(items.filter { item in
+                            item != producedItem &&
+                            !craftingRecipe.requiredComponents.flatMap({$0.items}).contains(where: { $0 == item })
+                        }, selection: $selectedAvailableItemID) {
                             Text($0.name)
                         }
                     }

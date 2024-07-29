@@ -10,10 +10,8 @@ import SwiftData
 
 @Model
 final class Item: Identifiable, ObservableObject {
-    var id: String {
-        name
-    }
-    
+    let id = UUID()
+   
     @Attribute(.unique) var name: String
     var craftingRecipe: CraftingRecipe?
     
@@ -25,8 +23,9 @@ final class Item: Identifiable, ObservableObject {
 @Model
 final class Component: Identifiable, ObservableObject {
     let id = UUID()
+    var name: String = ""
     var count: Int = 1
-    var item: Item?
+    var items: [Item] = []
     var craftingRecipe: CraftingRecipe?
     
     init() {}
@@ -35,10 +34,10 @@ final class Component: Identifiable, ObservableObject {
 @Model
 final class CraftingRecipe: ObservableObject {
     var requiredComponents: [Component] = []
-    var producedItemCount = "1"
+    var producedItemCount: String
     var producedItem: Item?
     
-    init(producedItem: Item? = nil, producedItemCount: String = "") {
+    init(producedItem: Item? = nil, producedItemCount: String = "1") {
         self.producedItem = producedItem
         self.producedItemCount = producedItemCount
     }

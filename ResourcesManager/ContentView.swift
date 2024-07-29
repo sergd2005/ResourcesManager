@@ -10,7 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     
-    @State private var selectedItemID = ""
+    @State private var selectedItemID = UUID()
     @State private var selectedItemName = ""
     @State private var selectedItemCount = 0
     @State private var newItemName = ""
