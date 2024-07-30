@@ -10,18 +10,18 @@ import SwiftData
 
 @main
 struct ResourcesManagerApp: App {
+    let container = try! ModelContainer(for: Item.self)
     var body: some Scene {
         Window("Items", id: "Items") {
             ItemsView()
         }
-        .modelContainer(for: Item.self)
+        .modelContainer(container)
         Window("Crafting", id: "Crafting") {
             CraftingRecipesView()
         }
-        .modelContainer(for: Item.self)
+        .modelContainer(container)
     }
 }
-
 
 extension ModelContext {
     var sqliteCommand: String {
