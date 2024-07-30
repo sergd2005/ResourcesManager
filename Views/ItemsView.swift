@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ContentView: View {
+struct ItemsView: View {
     
     @State private var selectedItemID = UUID()
     @State private var selectedItemName = ""
@@ -39,7 +39,6 @@ struct ContentView: View {
                         Text("Add")
                     }
                 }
-                Text("Items")
                 List(items, selection: $selectedItemID) {
                     Text($0.name)
                 }
@@ -50,10 +49,6 @@ struct ContentView: View {
             }
             if let selectedItem {
                 ItemDetailsView(item: selectedItem)
-            }
-            VStack {
-                Text("Crafting Recipes")
-                CraftingRecipesView()
             }
         }
     }
@@ -67,8 +62,8 @@ struct ContentView: View {
 //    .modelContainer(previewContainer)
 //}
 
-#Preview("App") {
-    ContentView()
+#Preview("ItemsView") {
+    ItemsView()
     .frame(width: 1000, height: 500)
     .modelContainer(previewContainer)
 }

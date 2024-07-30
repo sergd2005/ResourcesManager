@@ -32,7 +32,8 @@ final class Component: Identifiable, ObservableObject {
 }
 
 @Model
-final class CraftingRecipe: ObservableObject {
+final class CraftingRecipe: Identifiable, ObservableObject {
+    let id = UUID()
     var requiredComponents: [Component] = []
     var producedItemCount: String
     var producedItem: Item?

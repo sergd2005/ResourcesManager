@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8557022B2C55734100A74ABB /* ResourcesManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8557022A2C55734100A74ABB /* ResourcesManagerApp.swift */; };
-		8557022D2C55734100A74ABB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8557022C2C55734100A74ABB /* ContentView.swift */; };
+		8557022D2C55734100A74ABB /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8557022C2C55734100A74ABB /* ItemsView.swift */; };
 		8557022F2C55734300A74ABB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8557022E2C55734300A74ABB /* Assets.xcassets */; };
 		855702322C55734300A74ABB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855702312C55734300A74ABB /* Preview Assets.xcassets */; };
 		8557023D2C55734300A74ABB /* ResourcesManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8557023C2C55734300A74ABB /* ResourcesManagerTests.swift */; };
@@ -53,7 +53,7 @@
 /* Begin PBXFileReference section */
 		855702272C55734100A74ABB /* ResourcesManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ResourcesManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8557022A2C55734100A74ABB /* ResourcesManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesManagerApp.swift; sourceTree = "<group>"; };
-		8557022C2C55734100A74ABB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8557022C2C55734100A74ABB /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		8557022E2C55734300A74ABB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		855702312C55734300A74ABB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		855702332C55734300A74ABB /* ResourcesManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ResourcesManager.entitlements; sourceTree = "<group>"; };
@@ -121,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				8557022A2C55734100A74ABB /* ResourcesManagerApp.swift */,
-				8557022C2C55734100A74ABB /* ContentView.swift */,
 				8557022E2C55734300A74ABB /* Assets.xcassets */,
 				855702332C55734300A74ABB /* ResourcesManager.entitlements */,
 				855702302C55734300A74ABB /* Preview Content */,
@@ -168,6 +167,7 @@
 				85BABCE02C57079000B9E3F8 /* CraftingRecipeView.swift */,
 				85BABCE32C5707DB00B9E3F8 /* CraftingRecipesView.swift */,
 				85BABCE52C57081900B9E3F8 /* ItemDetailsView.swift */,
+				8557022C2C55734100A74ABB /* ItemsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -305,7 +305,7 @@
 			files = (
 				85BABCE62C57081900B9E3F8 /* ItemDetailsView.swift in Sources */,
 				85BABCDF2C55D0FA00B9E3F8 /* PreviewSampleData.swift in Sources */,
-				8557022D2C55734100A74ABB /* ContentView.swift in Sources */,
+				8557022D2C55734100A74ABB /* ItemsView.swift in Sources */,
 				85BABCE42C5707DB00B9E3F8 /* CraftingRecipesView.swift in Sources */,
 				85BABCE12C57079000B9E3F8 /* CraftingRecipeView.swift in Sources */,
 				85BABCDD2C55C71D00B9E3F8 /* Items.swift in Sources */,

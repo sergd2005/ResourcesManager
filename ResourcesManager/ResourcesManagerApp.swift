@@ -11,8 +11,12 @@ import SwiftData
 @main
 struct ResourcesManagerApp: App {
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        Window("Items", id: "Items") {
+            ItemsView()
+        }
+        .modelContainer(for: Item.self)
+        Window("Crafting", id: "Crafting") {
+            CraftingRecipesView()
         }
         .modelContainer(for: Item.self)
     }
