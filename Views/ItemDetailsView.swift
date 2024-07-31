@@ -22,6 +22,7 @@ struct ItemDetailsView: View {
                           prompt: Text("Required"))
                 
             }
+            
             HStack {
                 Button {
                     let componentsWithItemPredicate = #Predicate<Component> { component in

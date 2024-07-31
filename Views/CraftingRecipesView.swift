@@ -50,19 +50,27 @@ final class AllItemsViewModel: ObservableObject {
     
     var allItems: [ItemCount] {
         var tmp = [ItemCount]()
+        processedRecipes.removeAll()
         for craftingRecipe in craftingRecipes {
             getAllItems(craftingRecipe: craftingRecipe, items: &tmp)
         }
         return tmp
     }
     
-    private func getAllItems(craftingRecipe: CraftingRecipe, items: inout [ItemCount]) {
+    private var processedRecipes = Set<CraftingRecipe>()
+    
+    private func getAllItems(craftingRecipe: CraftingRecipe, items: inout [ItemCount], recipeCount: Int = 1) {
+        guard !processedRecipes.contains(craftingRecipe) else { return }
+        
+        processedRecipes.insert(craftingRecipe)
         for component in craftingRecipe.requiredComponents {
             for item in component.items {
                 if let craftingRecipe = item.craftingRecipe {
-                    getAllItems(craftingRecipe: craftingRecipe, items: &items)
+                    let ratio = Float(component.count)/Float(Int(craftingRecipe.producedItemCount) ?? 1)
+                    let recipesCount = Int(ratio.rounded(.up))
+                    getAllItems(craftingRecipe: craftingRecipe, items: &items, recipeCount: recipesCount)
                 } else {
-                    items.append(ItemCount(item: item, count: component.count))
+                    items.append(ItemCount(item: item, count: recipeCount * component.count))
                 }
             }
         }
