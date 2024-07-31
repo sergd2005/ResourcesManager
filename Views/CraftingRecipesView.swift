@@ -17,11 +17,18 @@ struct CraftingRecipesView: View {
     
     var body: some View {
         HStack {
-            List(craftingRecipes, selection: $selectedCraftingRecipes) { recipe in
-                Text((recipe.producedItem?.name ?? "No Item") + " (\(recipe.requiredComponents.count))")
-            }
-            .onChange(of: selectedCraftingRecipes) {
-                allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) })
+            VStack {
+                Button {
+                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) })
+                } label: {
+                    Text("Refresh")
+                }
+                List(craftingRecipes, selection: $selectedCraftingRecipes) { recipe in
+                    Text(recipe.producedItem + " (\(recipe.requiredComponents.count))")
+                }
+                .onChange(of: selectedCraftingRecipes) {
+                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) })
+                }
             }
             if !selectedCraftingRecipes.isEmpty {
                 AllItemsView(viewModel: allItemsViewModel)
@@ -33,7 +40,7 @@ struct CraftingRecipesView: View {
 final class ItemCount: Identifiable, ObservableObject {
     let id = UUID()
     let item: Item
-    let count: Int
+    var count: Int
     
     init(item: Item, count: Int) {
         self.item = item
@@ -49,15 +56,23 @@ final class AllItemsViewModel: ObservableObject {
     }
     
     var allItems: [ItemCount] {
-        var tmp = [ItemCount]()
+        var itemsCountArray = [ItemCount]()
         processedRecipes.removeAll()
         for craftingRecipe in craftingRecipes {
-            getAllItems(craftingRecipe: craftingRecipe, items: &tmp)
+            getAllItems(craftingRecipe: craftingRecipe, items: &itemsCountArray)
         }
         for craftingRecipe in craftingRecipes {
-            tmp = tmp.filter { $0.item != craftingRecipe.producedItem }
+            itemsCountArray = itemsCountArray.filter { $0.item.name != craftingRecipe.producedItem }
         }
-        return tmp
+        var itemsMap = [UUID: ItemCount]()
+        for itemCount in itemsCountArray {
+            var count = itemsMap[itemCount.item.id, default: ItemCount(item: itemCount.item, count: 1)]
+            count.count = count.count + itemCount.count
+            itemsMap[itemCount.item.id] = count
+        }
+        return itemsMap.map { (key: UUID, value: ItemCount) in
+            value
+        }
     }
     
     private var processedRecipes = Set<CraftingRecipe>()

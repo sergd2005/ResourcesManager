@@ -13,6 +13,8 @@ final class Item: Identifiable, ObservableObject {
     let id = UUID()
    
     @Attribute(.unique) var name: String
+    @Relationship(inverse: \Component.items) var components = [Component]()
+    
     var craftingRecipe: CraftingRecipe?
     var isTool = false
     
@@ -25,10 +27,12 @@ final class Item: Identifiable, ObservableObject {
 final class Component: Identifiable, ObservableObject {
     let id = UUID()
     
-    var name: String = ""
+    @Attribute(.unique) var name: String = ""
+    // TODO: one item can be stored in multiple components - how to build inverse relationship in SwiftData?
+    @Relationship var items: [Item] = []
+    @Relationship(inverse: \CraftingRecipe.requiredComponents) var craftingRecipe: CraftingRecipe?
+    
     var count: Int = 1
-    var items: [Item] = []
-    var craftingRecipe: CraftingRecipe?
     
     init() {}
 }
@@ -37,11 +41,12 @@ final class Component: Identifiable, ObservableObject {
 final class CraftingRecipe: Identifiable, ObservableObject {
     let id = UUID()
     
-    var requiredComponents: [Component] = []
     var producedItemCount: String
-    var producedItem: Item?
     
-    init(producedItem: Item? = nil, producedItemCount: String = "1") {
+    @Attribute(.unique) var producedItem: String
+    @Relationship var requiredComponents: [Component] = []
+    
+    init(producedItem: String = "", producedItemCount: String = "1") {
         self.producedItem = producedItem
         self.producedItemCount = producedItemCount
     }

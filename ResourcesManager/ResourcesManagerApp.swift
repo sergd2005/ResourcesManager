@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct ResourcesManagerApp: App {
-    let container = try! ModelContainer(for: Item.self)
+    let container = try! ModelContainer(for: Item.self, CraftingRecipe.self, Component.self)
     var body: some Scene {
         Window("Items", id: "Items") {
             ItemsView()

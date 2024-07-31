@@ -47,7 +47,7 @@ struct ItemDetailsView: View {
                 CraftingRecipeView(craftingRecipe:craftingRecipe)
             } else {
                 Button {
-                    item.craftingRecipe = CraftingRecipe(producedItem: item)
+                    item.craftingRecipe = CraftingRecipe(producedItem: item.name)
                 } label: {
                     Text("Add Crafting Recipe")
                 }
