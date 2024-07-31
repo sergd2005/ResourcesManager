@@ -24,6 +24,9 @@ struct ItemDetailsView: View {
             }
             
             HStack {
+                Toggle(isOn: $item.isTool) {
+                    Text("Is Tool")
+                }
                 Button {
                     let componentsWithItemPredicate = #Predicate<Component> { component in
                         !component.items.isEmpty

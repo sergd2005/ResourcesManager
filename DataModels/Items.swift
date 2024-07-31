@@ -14,6 +14,7 @@ final class Item: Identifiable, ObservableObject {
    
     @Attribute(.unique) var name: String
     var craftingRecipe: CraftingRecipe?
+    var isTool = false
     
     init(name: String) {
         self.name = name
@@ -23,6 +24,7 @@ final class Item: Identifiable, ObservableObject {
 @Model
 final class Component: Identifiable, ObservableObject {
     let id = UUID()
+    
     var name: String = ""
     var count: Int = 1
     var items: [Item] = []
@@ -34,6 +36,7 @@ final class Component: Identifiable, ObservableObject {
 @Model
 final class CraftingRecipe: Identifiable, ObservableObject {
     let id = UUID()
+    
     var requiredComponents: [Component] = []
     var producedItemCount: String
     var producedItem: Item?

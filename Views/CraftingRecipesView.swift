@@ -54,6 +54,9 @@ final class AllItemsViewModel: ObservableObject {
         for craftingRecipe in craftingRecipes {
             getAllItems(craftingRecipe: craftingRecipe, items: &tmp)
         }
+        for craftingRecipe in craftingRecipes {
+            tmp = tmp.filter { $0.item != craftingRecipe.producedItem }
+        }
         return tmp
     }
     
@@ -65,12 +68,16 @@ final class AllItemsViewModel: ObservableObject {
         processedRecipes.insert(craftingRecipe)
         for component in craftingRecipe.requiredComponents {
             for item in component.items {
-                if let craftingRecipe = item.craftingRecipe {
-                    let ratio = Float(component.count)/Float(Int(craftingRecipe.producedItemCount) ?? 1)
-                    let recipesCount = Int(ratio.rounded(.up))
-                    getAllItems(craftingRecipe: craftingRecipe, items: &items, recipeCount: recipesCount)
+                if item.isTool {
+                    items.append(ItemCount(item: item, count: 1))
                 } else {
-                    items.append(ItemCount(item: item, count: recipeCount * component.count))
+                    if let craftingRecipe = item.craftingRecipe {
+                        let ratio = Float(component.count)/Float(Int(craftingRecipe.producedItemCount) ?? 1)
+                        let recipesCount = Int(ratio.rounded(.up))
+                        getAllItems(craftingRecipe: craftingRecipe, items: &items, recipeCount: recipesCount)
+                    } else {
+                        items.append(ItemCount(item: item, count: recipeCount * component.count))
+                    }
                 }
             }
         }
