@@ -70,7 +70,7 @@ final class AllItemsViewModel: ObservableObject {
         }
         var itemsMap = [UUID: ItemCount]()
         for itemCount in itemsCountArray {
-            let count = itemsMap[itemCount.item.id, default: ItemCount(item: itemCount.item, count: 1)]
+            let count = itemsMap[itemCount.item.id, default: ItemCount(item: itemCount.item, count: 0)]
             count.count = count.count + itemCount.count
             itemsMap[itemCount.item.id] = count
         }
@@ -85,17 +85,25 @@ final class AllItemsViewModel: ObservableObject {
         guard let modelContext else { return }
         
         processedRecipes.insert(craftingRecipe)
+        print("Getting items for \(craftingRecipe.producedItem)")
         for component in craftingRecipe.requiredComponents {
+            print("Component: \(component.name); possible items count: \(component.itemIDS.count)")
             for item in component.items(modelContext: modelContext) {
+                print("Item: isTool \(item.isTool); name: \(item.name)")
                 if item.isTool {
+                    print("Adding as tool count 1")
                     items.append(ItemCount(item: item, count: 1))
                 } else {
                     if let craftingRecipe = item.craftingRecipe,
                        !processedRecipes.contains(craftingRecipe) {
+                        print("Produced items by recipe: \(craftingRecipe.producedItemCount)")
+                        print("Required items count: \(component.count)")
                         let ratio = Float(component.count)/Float(Int(craftingRecipe.producedItemCount) ?? 1)
                         let recipesCount = Int(ratio.rounded(.up))
+                        print("Recipes count: \(recipeCount)")
                         getAllItems(craftingRecipe: craftingRecipe, items: &items, recipeCount: recipesCount)
                     } else {
+                        print("Item has no recipe; Adding \(recipeCount * component.count) items")
                         items.append(ItemCount(item: item, count: recipeCount * component.count))
                     }
                 }
