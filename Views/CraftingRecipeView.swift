@@ -41,6 +41,14 @@ struct CraftingRecipeView: View {
             HStack {
                 Text("Crafting Recipe")
                 Button {
+                    let recipeID = craftingRecipe.id
+                    let itemsWithRecipePredicate = #Predicate<Item> { $0.craftingRecipe?.id == recipeID }
+                    let descriptor = FetchDescriptor<Item>(predicate: itemsWithRecipePredicate)
+                    guard let itemsWithRecipe = try? modelContext.fetch(descriptor) else { return }
+                    
+                    for item in itemsWithRecipe {
+                        item.craftingRecipe = nil
+                    }
                     modelContext.delete(craftingRecipe)
                 } label: {
                     Text("Delete Recipe")
@@ -65,6 +73,7 @@ struct CraftingRecipeView: View {
                             Button {
                                 guard let selectedComponentIndex = craftingRecipe.requiredComponents.firstIndex(of: selectedComponent) else { return }
                                 craftingRecipe.requiredComponents.remove(at: selectedComponentIndex)
+                                modelContext.delete(selectedComponent)
                             } label: {
                                 Text("Delete")
                             }
@@ -88,7 +97,7 @@ struct CraftingRecipeView: View {
                                       formatter: numberFormatter)
                         }
                         Text("Possible Items")
-                        List(selectedComponent.items, selection: $selectedItemFromComponentID) {
+                        List(selectedComponent.items(modelContext: modelContext), selection: $selectedItemFromComponentID) {
                             Text($0.name)
                         }
                     }
@@ -97,9 +106,9 @@ struct CraftingRecipeView: View {
                     if let selectedComponent {
                         if let selectedAvailableItem {
                             Button {
-                                selectedComponent.items.append(selectedAvailableItem)
+                                selectedComponent.itemIDS.append(selectedAvailableItem.id)
                                 if selectedComponent.name.isEmpty {
-                                    selectedComponent.name = selectedComponent.items.first?.name ?? ""
+                                    selectedComponent.name = selectedComponent.items(modelContext: modelContext).first?.name ?? ""
                                 }
                                 selectedAvailableItemID = UUID()
                             } label: {
@@ -108,10 +117,7 @@ struct CraftingRecipeView: View {
                         }
                         if let selectedItemFromComponent {
                             Button {
-                                guard let selectedItemFromComponentIndex = selectedComponent.items.firstIndex(of: selectedItemFromComponent) else {
-                                    return
-                                }
-                                selectedComponent.items.remove(at: selectedItemFromComponentIndex)
+                                selectedComponent.itemIDS = selectedComponent.itemIDS.filter { $0 != selectedItemFromComponent.id }
                             } label: {
                                 Text("->")
                             }
@@ -122,7 +128,7 @@ struct CraftingRecipeView: View {
                     Text("Available Items")
                     List(items.filter { item in
                         item.name != craftingRecipe.producedItem &&
-                        !craftingRecipe.requiredComponents.flatMap({$0.items}).contains(where: { $0 == item })
+                        !craftingRecipe.requiredComponents.flatMap({$0.items(modelContext: modelContext)}).contains(where: { $0 == item })
                     }, selection: $selectedAvailableItemID) {
                         Text($0.name)
                     }

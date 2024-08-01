@@ -19,7 +19,8 @@ struct CraftingRecipesView: View {
         HStack {
             VStack {
                 Button {
-                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) })
+                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) },
+                    modelContext: modelContext)
                 } label: {
                     Text("Refresh")
                 }
@@ -27,7 +28,8 @@ struct CraftingRecipesView: View {
                     Text(recipe.producedItem + " (\(recipe.requiredComponents.count))")
                 }
                 .onChange(of: selectedCraftingRecipes) {
-                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) })
+                    allItemsViewModel = AllItemsViewModel(craftingRecipes: craftingRecipes.filter { selectedCraftingRecipes.contains($0.id) },
+                    modelContext: modelContext)
                 }
             }
             if !selectedCraftingRecipes.isEmpty {
@@ -50,9 +52,11 @@ final class ItemCount: Identifiable, ObservableObject {
 
 final class AllItemsViewModel: ObservableObject {
     let craftingRecipes: [CraftingRecipe]
+    let modelContext: ModelContext?
     
-    init(craftingRecipes: [CraftingRecipe]) {
+    init(craftingRecipes: [CraftingRecipe], modelContext: ModelContext? = nil) {
         self.craftingRecipes = craftingRecipes
+        self.modelContext = modelContext
     }
     
     var allItems: [ItemCount] {
@@ -66,7 +70,7 @@ final class AllItemsViewModel: ObservableObject {
         }
         var itemsMap = [UUID: ItemCount]()
         for itemCount in itemsCountArray {
-            var count = itemsMap[itemCount.item.id, default: ItemCount(item: itemCount.item, count: 1)]
+            let count = itemsMap[itemCount.item.id, default: ItemCount(item: itemCount.item, count: 1)]
             count.count = count.count + itemCount.count
             itemsMap[itemCount.item.id] = count
         }
@@ -78,15 +82,16 @@ final class AllItemsViewModel: ObservableObject {
     private var processedRecipes = Set<CraftingRecipe>()
     
     private func getAllItems(craftingRecipe: CraftingRecipe, items: inout [ItemCount], recipeCount: Int = 1) {
-        guard !processedRecipes.contains(craftingRecipe) else { return }
+        guard let modelContext else { return }
         
         processedRecipes.insert(craftingRecipe)
         for component in craftingRecipe.requiredComponents {
-            for item in component.items {
+            for item in component.items(modelContext: modelContext) {
                 if item.isTool {
                     items.append(ItemCount(item: item, count: 1))
                 } else {
-                    if let craftingRecipe = item.craftingRecipe {
+                    if let craftingRecipe = item.craftingRecipe,
+                       !processedRecipes.contains(craftingRecipe) {
                         let ratio = Float(component.count)/Float(Int(craftingRecipe.producedItemCount) ?? 1)
                         let recipesCount = Int(ratio.rounded(.up))
                         getAllItems(craftingRecipe: craftingRecipe, items: &items, recipeCount: recipesCount)

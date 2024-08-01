@@ -28,14 +28,14 @@ struct ItemDetailsView: View {
                     Text("Is Tool")
                 }
                 Button {
+                    let itemID = item.id
                     let componentsWithItemPredicate = #Predicate<Component> { component in
-                        !component.items.isEmpty
+                        component.itemIDS.contains(itemID)
                     }
                     let descriptor = FetchDescriptor<Component>(predicate: componentsWithItemPredicate)
-                    guard let componentsWithItems = try? modelContext.fetch(descriptor) else { return }
-                    let componentsWithCurrentItem = componentsWithItems.filter { $0.items.contains(where: {$0 == item})}
-                    for component in componentsWithCurrentItem {
-                        component.items = component.items.filter({$0 != item})
+                    guard let componentsWithItem = try? modelContext.fetch(descriptor) else { return }
+                    for component in componentsWithItem {
+                        component.itemIDS = component.itemIDS.filter { $0 != item.id }
                     }
                     modelContext.delete(item)
                 } label: {
