@@ -27,7 +27,7 @@ struct SampleData {
 let previewContainer: ModelContainer = {
     do {
         let container = try ModelContainer(
-            for: Item.self,
+            for: Item.self, CraftingRecipe.self, Component.self, Loot.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         let modelContext = container.mainContext
